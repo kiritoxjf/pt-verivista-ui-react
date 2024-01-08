@@ -1,5 +1,5 @@
 import { ThemeProvider, createTheme, responsiveFontSizes } from '@mui/material/styles';
-import { useAppSelector } from '@/services/store';
+import { useAppSelector } from '@/features/store';
 import { PaletteMode } from '@mui/material';
 import React from 'react';
 

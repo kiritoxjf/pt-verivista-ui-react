@@ -1,0 +1,196 @@
+.blacklist {
+  display: flex;
+  flex-direction: row;
+  width: 20rem;
+  height: 24rem;
+  background: rgba(255, 255, 255, 0.6);
+  box-shadow: 0rem 0.5rem 1.75rem -0.5625rem rgba(0, 0, 0, 0.45);
+  position: relative;
+  border-radius: 1rem;
+  overflow: hidden;
+  .wave {
+    position: absolute;
+    width: 46rem;
+    height: 38rem;
+    opacity: 0.6;
+    left: 0;
+    top: 0;
+    margin-left: -50%;
+    margin-top: -30%;
+    background: linear-gradient(82deg, #fd6585, #0d25b9);
+    border-radius: 40%;
+    animation: wave 3s infinite linear;
+    z-index: 1;
+  }
+  .wave:nth-child(2),
+  .wave:nth-child(3) {
+    top: 14rem;
+  }
+  .wave:nth-child(2) {
+    animation-duration: 5s;
+  }
+  .wave:nth-child(2) {
+    animation-duration: 7s;
+  }
+  .search {
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    .content {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      height: 100%;
+      margin: 0.75rem auto;
+      font-size: 1.25rem;
+      font-family: 'Circle Font', sans-serif;
+      color: rgb(255, 255, 255);
+      font-weight: 200;
+      text-align: center;
+      .title {
+        font-size: 1.875rem;
+        text-shadow: 0 0 0.625rem #000;
+      }
+      .subtitle {
+        font-size: 0.8rem;
+        text-shadow: 0 0 0.625rem #000;
+      }
+      .email {
+        position: relative;
+        width: 12.5rem;
+        height: 2.25rem;
+        margin: 2rem auto 1rem auto;
+        input {
+          width: 100%;
+          background: transparent;
+          border: 0;
+          border-bottom: 0.125rem #fff solid;
+          font-size: 1.125rem;
+          color: #fff;
+        }
+        input:focus,
+        input:valid {
+          outline: 0;
+          border-bottom-color: #40a9ff;
+        }
+        label {
+          position: absolute;
+          left: 0;
+          pointer-events: none;
+          span {
+            display: inline-block;
+            font-size: 1.125rem;
+            transition: 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+          }
+        }
+        input:focus + label span,
+        input:valid + label span {
+          color: #40a9ff;
+          transform: translateY(-1.5625rem);
+        }
+      }
+      .btn {
+        position: relative;
+        overflow: hidden;
+        width: 6rem;
+        height: 2rem;
+        margin: 0 auto;
+        padding: 0 1rem;
+        background: rgba(26, 40, 71, 0.6);
+        background-size: 400%;
+        border-radius: 1.5rem;
+        font-size: 1.1rem;
+        line-height: 2rem;
+        z-index: 1;
+        .text {
+          position: relative;
+          z-index: 2;
+        }
+      }
+      .active {
+        cursor: pointer;
+      }
+      .passive {
+        cursor: no-drop;
+      }
+      .btn.active:hover::before {
+        transform: scaleX(1);
+      }
+      .btn.active::before {
+        content: '';
+        position: absolute;
+        transform: scaleX(0);
+        transform-origin: 0 50%;
+        left: 0;
+        width: 100%;
+        height: inherit;
+        border-radius: inherit;
+        background: linear-gradient(90deg, #8f68fa, #5312d6);
+        transition: all 0.475s;
+      }
+      .info {
+        flex: 1;
+        margin: 0 1.5rem;
+        font-size: 0.875rem;
+        overflow: hidden;
+        .playing {
+          animation: infoShow 1s linear;
+          text-shadow: 0 0 0.625rem #000;
+          p {
+            margin-block: 0.3rem;
+          }
+          .smallRed {
+            color: #f94739;
+          }
+          .red {
+            font-size: 1.5rem;
+            color: #f94739;
+          }
+          .green {
+            font-size: 1.5rem;
+            color: #1eb01e;
+          }
+        }
+      }
+    }
+  }
+}
+
+@keyframes wave {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes rotate180 {
+  from {
+    transform: rotateY(0deg);
+  }
+  to {
+    transform: rotateY(180deg);
+  }
+}
+
+@keyframes infoShow {
+  0% {
+    opacity: 0;
+    background: transparent;
+    transform: translateY(-100%);
+  }
+  20% {
+    opacity: 1;
+    background: rgba(255, 255, 255, 0.45);
+    transform: translateY(-100%);
+  }
+  80% {
+    background: rgba(255, 255, 255, 0.45);
+    transform: translateY(0);
+  }
+  100% {
+    background: transparent;
+  }
+}

@@ -2,7 +2,7 @@ import React from 'react';
 import { changeMode } from '@/features/user/userSlice';
 import { Stack, Box, Typography, IconButton, TypographyVariant, SxProps, Theme } from '@mui/material';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
-import { useAppDispatch, useAppSelector } from '@/services/store';
+import { useAppDispatch, useAppSelector } from '@/features/store';
 const TemplateTester = () => {
   const dispatch = useAppDispatch();
   const mode = useAppSelector((state) => state.user.mode);

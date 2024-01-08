@@ -5,6 +5,21 @@ import * as path from 'path';
 export default defineConfig({
   server: {
     port: 8000,
+    proxy: {
+      '/file': {
+        target: 'https://verivista.oss-cn-beijing.aliyuncs.com/',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/file/, ''),
+      },
+      '/api': {
+        target: 'http://localhost:8081',
+        changeOrigin: true,
+        headers: {
+          'X-Real-IP': '192.168.10.114',
+          'X-Forwarded-For': '192.168.10.114',
+        },
+      },
+    },
   },
   plugins: [react()],
   resolve: {
@@ -14,8 +29,8 @@ export default defineConfig({
   },
   css: {
     preprocessorOptions: {
-      less: {
-        javascriptEnabled: true,
+      scss: {
+        additionalData: `@import "./src/App.scss";`,
       },
     },
   },

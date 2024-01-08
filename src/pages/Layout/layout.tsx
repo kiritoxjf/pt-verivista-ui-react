@@ -1,13 +1,17 @@
-import { Container } from '@mui/material';
-import Counter from '@/components/Counter/Counter';
+import styles from './Layout.module.scss';
 import { Outlet } from 'react-router-dom';
+import Header from '@/components/Header/Header';
+import Footer from '@/components/Footer/Footer';
 
 const Layout = () => {
   return (
-    <Container sx={{ py: 2, position: 'relative' }}>
-      <Outlet />
-      <Counter />
-    </Container>
+    <div className={styles.layout}>
+      <Header />
+      <div className={styles.main}>
+        <Outlet />
+      </div>
+      <Footer />
+    </div>
   );
 };
 
