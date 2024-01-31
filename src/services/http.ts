@@ -7,6 +7,10 @@ const instance = axios.create({
   withCredentials: true,
 });
 
+interface iError {
+  message: string;
+}
+
 // 请求拦截器
 instance.interceptors.request.use(
   (config) => {
@@ -37,7 +41,7 @@ export const get = <T>(url: string, params?: unknown, config?: AxiosRequestConfi
         resolve(res.data);
       })
       .catch((err: AxiosError) => {
-        reject(err.message || '请求失败');
+        reject(err.response?.data || '请求失败');
       });
   });
 };
@@ -51,7 +55,7 @@ export const post = <T>(url: string, data: unknown, config?: AxiosRequestConfig)
         resolve(res.data);
       })
       .catch((err: AxiosError) => {
-        reject(err.message || '请求失败');
+        reject(err.response?.data || '请求失败');
       });
   });
 };
@@ -64,8 +68,8 @@ export const put = <T>(url: string, data: unknown, config?: AxiosRequestConfig):
       .then((res) => {
         resolve(res.data);
       })
-      .catch((err: AxiosError) => {
-        reject(err.message || '请求失败');
+      .catch((err: AxiosError<iError>) => {
+        reject(err.response?.data || '请求失败');
       });
   });
 };
@@ -79,7 +83,7 @@ export const dele = <T>(url: string, params?: unknown, config?: AxiosRequestConf
         resolve(res.data);
       })
       .catch((err: AxiosError) => {
-        reject(err.message || '请求失败');
+        reject(err.response?.data || '请求失败');
       });
   });
 };

@@ -13,5 +13,5 @@ export const getBlackApi = (email: string): Promise<BlackList> => {
   const params = {
     email: email,
   };
-  return get<BlackList>('/black', params);
+  return get<BlackList>('/com/black', params);
 };

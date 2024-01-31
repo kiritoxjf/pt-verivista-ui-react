@@ -5,13 +5,13 @@ type ICP = {
 }
 // 查ICP
 export const getIcp = (): Promise<ICP> => {
-  return get<ICP>('/icp')
+  return get<ICP>('/com/icp')
 }
 
 type LastTime = {
   lastTime: string
 }
 // 查上次敏感行为时间
-export const getLastTime = (): Promise<LastTime> => {
-  return get<LastTime>('/lastTime')
+export const getLastTime = () => {
+  return get<LastTime>('/com/lastTime')
 }
