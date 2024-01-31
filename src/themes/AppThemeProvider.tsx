@@ -1,6 +1,7 @@
 import { ThemeProvider, createTheme, responsiveFontSizes } from '@mui/material/styles';
 import { useAppSelector } from '@/features/store';
 import { PaletteMode } from '@mui/material';
+import { outlinedInputClasses } from '@mui/material/OutlinedInput';
 import React from 'react';
 
 type Props = {
@@ -39,6 +40,7 @@ declare module '@mui/material/styles' {
     Sky: TypeColor;
     Red: TypeColor;
     Green: TypeColor;
+    Blue: TypeColor;
   }
 
   interface TypeBackground {
@@ -92,7 +94,7 @@ export const AppThemeProvider: React.FC<Props> = ({ children }) => {
       palette: {
         mode: mode as PaletteMode,
         primary: {
-          main: '#1c9c7c',
+          main: '#40a9ff',
         },
         secondary: {
           main: '#9DF3C4',
@@ -113,7 +115,6 @@ export const AppThemeProvider: React.FC<Props> = ({ children }) => {
           Lightest: '#F7F9FA',
           White: '#FFFFFF',
         },
-
         Red: {
           Darkest: '#6B0206',
           Base: '#E8282B',
@@ -121,13 +122,19 @@ export const AppThemeProvider: React.FC<Props> = ({ children }) => {
           Lighter: '#FF9898',
           Lightest: '#FFE5E5',
         },
-
         Green: {
           Darkest: '#0A4C0A',
           Base: '#0F8B0F',
           Light: '#1EB01E',
           Lighter: '#7FF77F',
           Lightest: '#E5FFE5',
+        },
+        Blue: {
+          Darkest: '#0064b5',
+          Base: '#008cff',
+          Light: '#40a9ff',
+          Lighter: '#66baff',
+          Lightest: '#8fccff',
         },
         background: {
           default: mode === 'dark' ? '#000000' : '#FCFBFA',
@@ -139,7 +146,6 @@ export const AppThemeProvider: React.FC<Props> = ({ children }) => {
           secondary: '#999999',
           disabled: '#C3C1BD',
         },
-
         grey: {
           50: mode === 'dark' ? 'hsl(0, 0%, 10%)' : 'hsl(0, 5%, 95%)',
           100: mode === 'dark' ? 'hsl(0, 0%, 20%)' : 'hsl(0, 0%, 90%)',
@@ -158,7 +164,6 @@ export const AppThemeProvider: React.FC<Props> = ({ children }) => {
           gold: 'linear-gradient(180deg, #A3873C 0%, #E3D294 100%)',
         },
       },
-
       typography: {
         fontFamily: 'Dosis, sans-serif',
 
@@ -245,6 +250,18 @@ export const AppThemeProvider: React.FC<Props> = ({ children }) => {
         },
       },
       components: {
+        MuiTextField: {
+          styleOverrides: {
+            root: {
+              '--TextField-brandBorderColor': '#f9f7fa',
+              '--TextField-brandBorderHoverColor': '#f9f7fa',
+              '--TextField-brandBorderFocusedColor': '#40a9ff',
+              '& label.Mui-focused': {
+                color: 'var(--TextField-brandBorderFocusedColor)',
+              },
+            },
+          },
+        },
         MuiCssBaseline: {
           styleOverrides: {
             body: {
@@ -269,6 +286,51 @@ export const AppThemeProvider: React.FC<Props> = ({ children }) => {
           styleOverrides: {
             root: {
               aspectRatio: '1/1',
+            },
+          },
+        },
+        MuiOutlinedInput: {
+          styleOverrides: {
+            notchedOutline: {
+              borderColor: 'var(--TextField-brandBorderColor)',
+            },
+            root: {
+              [`&:hover .${outlinedInputClasses.notchedOutline}`]: {
+                borderColor: 'var(--TextField-brandBorderHoverColor)',
+              },
+              [`&.Mui-focused .${outlinedInputClasses.notchedOutline}`]: {
+                borderColor: 'var(--TextField-brandBorderFocusedColor)',
+              },
+            },
+          },
+        },
+        MuiFilledInput: {
+          styleOverrides: {
+            root: {
+              '&::before, &::after': {
+                borderBottom: '2px solid var(--TextField-brandBorderColor)',
+              },
+              '&:hover:not(.Mui-disabled, .Mui-error):before': {
+                borderBottom: '2px solid var(--TextField-brandBorderHoverColor)',
+              },
+              '&.Mui-focused:after': {
+                borderBottom: '2px solid var(--TextField-brandBorderFocusedColor)',
+              },
+            },
+          },
+        },
+        MuiInput: {
+          styleOverrides: {
+            root: {
+              '&::before': {
+                borderBottom: '2px solid var(--TextField-brandBorderColor)',
+              },
+              '&:hover:not(.Mui-disabled, .Mui-error):before': {
+                borderBottom: '2px solid var(--TextField-brandBorderHoverColor)',
+              },
+              '&.Mui-focused:after': {
+                borderBottom: '2px solid var(--TextField-brandBorderFocusedColor)',
+              },
             },
           },
         },

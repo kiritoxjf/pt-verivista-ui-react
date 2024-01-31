@@ -1,8 +1,14 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-const initialState = {
-  token: null,
-  user: null,
+interface UserState {
+  logged: boolean
+  user: string
+  mode: string | null
+}
+
+const initialState: UserState = {
+  logged: false,
+  user: '',
   mode: localStorage.getItem('mode')
     ? localStorage.getItem('mode')
     : window.matchMedia('(prefers-color-scheme: dark)').matches
@@ -14,12 +20,13 @@ export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    setCredentials: (state, action) => {
-      state.token = action.payload.token;
-      state.user = action.payload.user;
+    login: (state: UserState, action: PayloadAction<string>) => {
+      state.logged = true
+      state.user = action.payload
     },
-    setToken: (state, action) => {
-      state.token = action.payload;
+    logout: (state: UserState) => {
+      state.logged = false
+      state.user = ''
     },
     changeMode: (state) => {
       if (state.mode === 'light') {
@@ -33,6 +40,6 @@ export const userSlice = createSlice({
   },
 });
 
-export const { setCredentials, setToken, changeMode } = userSlice.actions;
+export const { login, logout, changeMode } = userSlice.actions;
 
 export default userSlice.reducer;
