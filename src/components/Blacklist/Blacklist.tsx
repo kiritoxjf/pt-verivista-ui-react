@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import styles from './Blacklist.module.scss';
 import { SearchRes } from './Blacklist.interface';
-import { getLastTime } from '@/services/api/baseSlice';
 import { getBlackApi } from '@/services/api/blackListSlice';
+import { useAppDispatch, useAppSelector } from '@/features/store';
+import { setLastTime } from '@/features/base/baseSlice';
+import WaveCard from '../WaveCard/WaveCard';
 function Blacklist() {
   const emailString: string[] = ['E', 'm', 'a', 'i', 'l'];
   const [searchEmail, setSearchEmail] = useState<string>('');
   const [searchRes, setSearchRes] = useState<SearchRes>();
   const [remainTime, setRemainTime] = useState<number>(0);
-  const [formatRemain, setFormatRemain] = useState<string>('');
-  const [lastTime, setLastTime] = useState<string>('');
+  const lastTime = useAppSelector((state) => state.base.lastTime);
+  const dispatch = useAppDispatch();
   let remainTimeout: NodeJS.Timeout;
-  // let lastTime: string = '';
 
   useEffect(() => {
     clearInterval(remainTimeout);
@@ -30,18 +31,6 @@ function Blacklist() {
     }
   }, [lastTime]);
 
-  useEffect(() => {
-    const minutes = Math.floor(remainTime / 60000);
-    const seconds = Math.floor((remainTime % 60000) / 1000);
-    setFormatRemain(minutes + ':' + (seconds < 10 ? 0 : '') + seconds);
-  }, [remainTime]);
-
-  useEffect(() => {
-    getLastTime().then((res) => {
-      setLastTime(res.lastTime);
-    });
-  }, []);
-
   function handleSearchChange(event: React.ChangeEvent<HTMLInputElement>) {
     setSearchEmail(event.target.value);
   }
@@ -58,7 +47,7 @@ function Blacklist() {
           description: res.description,
           date: res.date,
         });
-        if (res.lastTime) setLastTime(res.lastTime);
+        if (res.lastTime) dispatch(setLastTime(new Date(res.lastTime).getTime()));
       })
       .catch((err) => {
         console.log(err);
@@ -72,9 +61,7 @@ function Blacklist() {
           <p>
             <span>结果：</span>
             {searchRes?.black ? (
-              <span className={styles.red}>
-                榜上有名
-              </span>
+              <span className={styles.red}>榜上有名</span>
             ) : (
               <span className={styles.green}>查无此人</span>
             )}
@@ -105,11 +92,7 @@ function Blacklist() {
   }
 
   return (
-    <div className={styles.blacklist}>
-      <div className={styles.wave}></div>
-      <div className={styles.wave}></div>
-      <div className={styles.wave}></div>
-
+    <WaveCard className={styles.blacklist}>
       <div className={styles.search}>
         <div className={styles.content}>
           <div className={styles.title}>查人</div>
@@ -128,12 +111,12 @@ function Blacklist() {
             className={`${styles.btn} ${remainTime > 0 ? styles.passive : styles.active}`}
             onClick={handleSearchSubmit}
           >
-            <span className={styles.text}>{remainTime > 0 ? formatRemain : 'Go'}</span>
+            <span className={styles.text}>{remainTime > 0 ? Math.floor(remainTime / 1000)  + 's' : 'Go'}</span>
           </div>
           <div className={styles.info}>{showRes()}</div>
         </div>
       </div>
-    </div>
+    </WaveCard>
   );
 }
 

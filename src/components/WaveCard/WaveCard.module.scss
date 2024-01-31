@@ -1,0 +1,46 @@
+.wave_card {
+  display: flex;
+  flex-direction: column;
+  width: auto;
+  height: auto;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.6);
+  box-shadow: 0rem 0.5rem 1.75rem -0.5625rem rgba(0, 0, 0, 0.45);
+  position: relative;
+  border-radius: 1rem;
+  overflow: hidden;
+  .wave {
+    position: absolute;
+    width: 46rem;
+    height: 38rem;
+    opacity: 0.6;
+    left: 0;
+    top: 0;
+    margin-left: -50%;
+    margin-top: -30%;
+    background: linear-gradient(82deg, #fd6585, #0d25b9);
+    border-radius: 40%;
+    animation: wave 3s infinite linear;
+    z-index: 1;
+  }
+  .wave:nth-child(2),
+  .wave:nth-child(3) {
+    top: 14rem;
+  }
+  .wave:nth-child(2) {
+    animation-duration: 5s;
+  }
+  .wave:nth-child(2) {
+    animation-duration: 7s;
+  }
+}
+
+@keyframes wave {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
