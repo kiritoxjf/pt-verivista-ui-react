@@ -1,4 +1,7 @@
-import { post } from '../http';
+import { login } from '@/features/user/userSlice';
+import { get, post } from '../http';
+import { Action, Dispatch } from '@reduxjs/toolkit';
+import { iUser } from '@/interfaces/Sign';
 
 type iSendCodeReq = {
   email: string;
@@ -19,6 +22,33 @@ type SignOnReq = {
   code: string;
 };
 
-export const signOn = (json: SignOnReq): Promise<unknown> => {
+type SignRes = {
+  message: string;
+};
+
+export const signOn = (json: SignOnReq): Promise<SignRes> => {
   return post('/com/signOn', json);
+};
+
+type SignInReq = {
+  email: string;
+  password: string;
+};
+
+export const signIn = (json: SignInReq): Promise<SignRes> => {
+  return post('/com/signIn', json);
+};
+
+interface iAction extends Action {
+  type: string;
+  payload: iUser;
+}
+
+export const authInfo = (dispatch: Dispatch<iAction>): Promise<iUser> => {
+  return get<iUser>('/auth/authInfo').then((res) => {
+    dispatch(login(res));
+    return new Promise((resolve) => {
+      resolve(res);
+    });
+  });
 };

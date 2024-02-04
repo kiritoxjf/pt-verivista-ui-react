@@ -1,0 +1,67 @@
+.sign {
+  display: flex;
+  width: 20rem;
+  height: 100%;
+  margin: 0 auto;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Circle Font', sans-serif;
+  .sign_in {
+    z-index: 2;
+    text-align: center;
+    margin: 0.75rem auto;
+    .title {
+      font-size: 1.875rem;
+      text-shadow: 0 0 0.625rem #000;
+    }
+    .btn {
+      width: 80%;
+      margin: 0.5rem auto;
+      button {
+        color: #ffffff;
+        font-family: 'Circle Font', sans-serif;
+      }
+    }
+  }
+  .form {
+    margin: 0 1rem;
+    .input {
+      margin-bottom: 1rem;
+      input::-ms-reveal {
+        display: none;
+      }
+    }
+  }
+  .sign_in {
+    .password {
+      margin-bottom: 2rem;
+    }
+    .btn:nth-child(1) {
+      margin-top: 2rem;
+    }
+  }
+  .sign_on {
+    .auth {
+      opacity: 1;
+      transform: translateY(0%);
+      animation: slide-in 500ms ease-in;
+    }
+    .auth.hidden {
+      display: none;
+      opacity: 0;
+      transform: translateY(-100%);
+      animation: slide-in 500ms ease-in reverse;
+    }
+  }
+}
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

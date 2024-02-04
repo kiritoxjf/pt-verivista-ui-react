@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import { getLastTime } from '@/services/api/baseSlice';
 import { useAppDispatch } from '@/features/store';
 import { setLastTime } from '@/features/base/baseSlice';
+import { authInfo } from '@/services/api/userSlice';
 
 const Layout = () => {
   const dispatch = useAppDispatch();
@@ -14,6 +15,13 @@ const Layout = () => {
     getLastTime().then((res) => {
       dispatch(setLastTime(new Date(res.lastTime).getTime()));
     });
+  }, []);
+
+  useEffect(() => {
+    const cookie = document.cookie;
+    if (cookie.includes('verivista_token')) {
+      authInfo(dispatch);
+    }
   }, []);
 
   return (

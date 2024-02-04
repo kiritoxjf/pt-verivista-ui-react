@@ -16,28 +16,28 @@ const Header = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const logged = useAppSelector((state) => state.user.logged);
+  const user = useAppSelector((state) => state.user.user);
 
   const handleSignClick = () => {
     if (logged) {
-      goRouter('/');
+      navigate('/');
       dispatch(logout());
     } else {
-      goRouter('/sign-in');
-      dispatch(login('kirito'));
+      navigate('/sign-in');
     }
-  };
-
-  const goRouter = (url: string) => {
-    navigate(url);
   };
   return (
     <div className={styles.header}>
       <div className={styles.content}>
-        <div className={styles.nav_btn} onClick={() => goRouter('/')}>
+        <div className={styles.nav_btn} onClick={() => navigate('/')}>
           <HomeIcon className={styles.icon} color="primary" />
           <span>首页</span>
         </div>
-        <div className={`${styles.avatar} ${logged ? styles.logged : ''}`} onClick={handleSignClick}></div>
+        <div
+          className={`${styles.avatar} ${logged ? styles.logged : ''}`}
+          onClick={handleSignClick}
+          title={user.email}
+        ></div>
       </div>
     </div>
   );

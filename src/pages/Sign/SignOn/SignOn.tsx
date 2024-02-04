@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '@/features/store';
 import { setLastTime } from '@/features/base/baseSlice';
 import { useSnackbar } from 'notistack';
-import { sendSignCode, signOn } from '@/services/api/userSlice';
+import { authInfo, sendSignCode, signOn } from '@/services/api/userSlice';
 import { iError } from '@/interfaces/Common';
 
 const SignOn = () => {
@@ -145,7 +145,7 @@ const SignOn = () => {
     });
   };
 
-  // 注册
+  // signSubmit 注册
   const signSubmit = () => {
     if (!formTest('email')) return;
     if (!formTest('password')) return;
@@ -156,9 +156,18 @@ const SignOn = () => {
       password: inForm.password,
       code: inForm.code,
     };
-    signOn(json).catch((err: iError) => {
-      enqueueSnackbar(err.message, { variant: 'error' });
-    });
+    setSignLoading(true);
+    signOn(json)
+      .then((res) => {
+        enqueueSnackbar(res.message, { variant: 'success' });
+        setSignLoading(false);
+        navigate('/');
+        authInfo(dispatch);
+      })
+      .catch((err: iError) => {
+        enqueueSnackbar(err.message, { variant: 'error' });
+        setSignLoading(false);
+      });
   };
 
   return (
@@ -174,7 +183,7 @@ const SignOn = () => {
               variant="standard"
               name="email"
               value={inForm.email}
-              autoComplete="current-email"
+              autoComplete="email"
               onChange={handleFormChange}
             />
             <TextField
@@ -194,6 +203,7 @@ const SignOn = () => {
                       onClick={toggleShowPwd}
                       onMouseDown={(event) => event.preventDefault()} // 防止焦点被移动
                       edge="end"
+                      title="显示/隐藏密码"
                     >
                       {inForm.showPwd ? <Visibility /> : <VisibilityOff />}
                     </IconButton>
@@ -218,6 +228,7 @@ const SignOn = () => {
                       onClick={toggleShowPwd}
                       onMouseDown={(event) => event.preventDefault()} // 防止焦点被移动
                       edge="end"
+                      title="显示/隐藏密码"
                     >
                       {inForm.showPwd ? <Visibility /> : <VisibilityOff />}
                     </IconButton>
@@ -260,7 +271,7 @@ const SignOn = () => {
             </LoadingButton>
           ) : (
             <div className={styles.btn}>
-              <Button fullWidth variant="contained" onClick={signSubmit}>
+              <Button fullWidth variant="contained" onClick={signSubmit} title="确认注册">
                 确认
               </Button>
             </div>
@@ -273,6 +284,7 @@ const SignOn = () => {
               onClick={() => {
                 navigate('/sign-in');
               }}
+              title="返回登录"
             >
               登陆
             </Button>
