@@ -3,25 +3,31 @@ import { Outlet } from 'react-router-dom';
 import Header from '@/components/Header/Header';
 import Footer from '@/components/Footer/Footer';
 import { useEffect } from 'react';
-import { getLastTime } from '@/services/api/baseSlice';
+import { getDefense, record } from '@/services/api/baseSlice';
 import { useAppDispatch } from '@/features/store';
-import { setLastTime } from '@/features/base/baseSlice';
+import { setDefense, updateNowTime } from '@/features/base/baseSlice';
 import { authInfo } from '@/services/api/userSlice';
 
 const Layout = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    getLastTime().then((res) => {
-      dispatch(setLastTime(new Date(res.lastTime).getTime()));
+    // 记录
+    record().then(() => {
+      // 获取上次敏感操作时间
+      getDefense().then((res) => {
+        dispatch(setDefense(res));
+      });
     });
-  }, []);
-
-  useEffect(() => {
+    // 验证Cookie获取用户信息
     const cookie = document.cookie;
     if (cookie.includes('verivista_token')) {
       authInfo(dispatch);
     }
+    // 刷新当前时间定时器
+    setInterval(() => {
+      dispatch(updateNowTime());
+    }, 1000);
   }, []);
 
   return (

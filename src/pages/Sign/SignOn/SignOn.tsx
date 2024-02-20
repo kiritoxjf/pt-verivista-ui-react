@@ -1,25 +1,26 @@
 import styles from './SignOn.module.scss';
 import WaveCard from '../../../components/WaveCard/WaveCard';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Button, TextField, Box, InputAdornment, IconButton } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { VisibilityOff, Visibility, Autorenew } from '@mui/icons-material';
 import { iSignOnForm } from '@/interfaces/Sign';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '@/features/store';
-import { setLastTime } from '@/features/base/baseSlice';
+import { setDefense } from '@/features/base/baseSlice';
 import { useSnackbar } from 'notistack';
 import { authInfo, sendSignCode, signOn } from '@/services/api/userSlice';
 import { iError } from '@/interfaces/Common';
+import { ISendCodeForm, ISignOnForm } from './SignOn.interface';
 
 const SignOn = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { enqueueSnackbar } = useSnackbar();
-  const lastTime = useAppSelector((state) => state.base.lastTime);
+  const defense = useAppSelector((state) => state.base.defense);
+  const nowTime = useAppSelector((state) => state.base.nowTime);
   const [sendLoading, setSendLoading] = useState<boolean>(false);
   const [signLoading, setSignLoading] = useState<boolean>(false);
-  const [remainTime, setRemainTime] = useState<number>(0);
   const [inForm, setInForm] = useState<iSignOnForm>({
     email: '',
     password: '',
@@ -32,34 +33,15 @@ const SignOn = () => {
   const pwdReg = /^[A-Za-z](?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{7,}$/;
   const codeReg = /^\d{6}$/;
 
-  let remainTimeout: NodeJS.Timeout;
-
-  useEffect(() => {
-    clearInterval(remainTimeout);
-    if (new Date().getTime() - new Date(lastTime).getTime() < 60000) {
-      remainTimeout = setInterval(() => {
-        const curr = new Date().getTime();
-        const last = new Date(lastTime).getTime();
-        const diff = last + 60000 - curr;
-        if (diff <= 0) {
-          clearInterval(remainTimeout);
-        }
-        setRemainTime(diff);
-      }, 1000);
-    } else {
-      clearInterval(remainTimeout);
-    }
-  }, [lastTime]);
-
   // 邮箱验证码发送
   const toggleSend = () => {
-    if (remainTime > 0 || sendLoading) {
+    if (nowTime - defense.email < 60000 || sendLoading) {
       enqueueSnackbar('别点啦，还不能操作第二次哦！', { variant: 'warning' });
       return;
     }
     if (!formTest('email')) return;
     setSendLoading(true);
-    const json = {
+    const json: ISendCodeForm = {
       email: inForm.email,
     };
     sendSignCode(json)
@@ -68,7 +50,12 @@ const SignOn = () => {
           variant: 'success',
         });
         setSendLoading(false);
-        dispatch(setLastTime(new Date().getTime()));
+        dispatch(
+          setDefense({
+            ...defense,
+            sign: new Date().getTime(),
+          }),
+        );
       })
       .catch((err) => {
         setSendLoading(false);
@@ -151,7 +138,7 @@ const SignOn = () => {
     if (!formTest('password')) return;
     if (!formTest('confirm')) return;
     if (!formTest('code')) return;
-    const json = {
+    const json: ISignOnForm = {
       email: inForm.email,
       password: inForm.password,
       code: inForm.code,
@@ -253,8 +240,8 @@ const SignOn = () => {
                       style={{ fontSize: '16px', color: 'rgba(255,255,255,0.6)' }}
                       title="发送验证码"
                     >
-                      {remainTime > 0 ? (
-                        Math.floor(remainTime / 1000) + 's'
+                      {nowTime - defense.email < 60000 ? (
+                        Math.floor(nowTime - defense.email / 1000) + 's'
                       ) : (
                         <Autorenew className={`${sendLoading ? styles.loading : ''}`} />
                       )}
@@ -272,7 +259,7 @@ const SignOn = () => {
           ) : (
             <div className={styles.btn}>
               <Button fullWidth variant="contained" onClick={signSubmit} title="确认注册">
-                确认
+                {nowTime - defense.sign < 3600000 ? 3600 + Math.floor((defense.sign - nowTime) / 1000) + 's' : '确认'}
               </Button>
             </div>
           )}

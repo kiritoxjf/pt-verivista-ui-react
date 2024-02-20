@@ -47,7 +47,7 @@ export const get = <T>(url: string, params?: unknown, config?: AxiosRequestConfi
 };
 
 // 封装 POST 请求
-export const post = <T>(url: string, data: unknown, config?: AxiosRequestConfig): Promise<T> => {
+export const post = <T>(url: string, data?: unknown, config?: AxiosRequestConfig): Promise<T> => {
   return new Promise((resolve, reject) => {
     instance
       .post<T>(url, data, config)
@@ -61,7 +61,7 @@ export const post = <T>(url: string, data: unknown, config?: AxiosRequestConfig)
 };
 
 // 封装 PUT 请求
-export const put = <T>(url: string, data: unknown, config?: AxiosRequestConfig): Promise<T> => {
+export const put = <T>(url: string, data?: unknown, config?: AxiosRequestConfig): Promise<T> => {
   return new Promise((resolve, reject) => {
     instance
       .put<T>(url, data, config)

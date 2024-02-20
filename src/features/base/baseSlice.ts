@@ -1,13 +1,27 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
+export type IDefense = {
+  sign: number;
+  email: number;
+  search: number;
+  report: number;
+};
+
 interface BaseState {
   icp: string;
-  lastTime: number;
+  defense: IDefense;
+  nowTime: number;
 }
 
 const initialState: BaseState = {
   icp: '',
-  lastTime: 0
+  defense: {
+    sign: 0,
+    email: 0,
+    search: 0,
+    report: 0,
+  },
+  nowTime: new Date().getTime(),
 };
 
 const baseSlice = createSlice({
@@ -17,12 +31,15 @@ const baseSlice = createSlice({
     setIcp: (state, action: PayloadAction<string>) => {
       state.icp = action.payload;
     },
-    setLastTime: (state, action: PayloadAction<number>) => {
-      state.lastTime = action.payload
-    }
+    setDefense: (state, action: PayloadAction<IDefense>) => {
+      state.defense = action.payload;
+    },
+    updateNowTime: (state) => {
+      state.nowTime = new Date().getTime();
+    },
   },
 });
 
 export const baseReducer = baseSlice.reducer;
 
-export const { setIcp, setLastTime } = baseSlice.actions;
+export const { setIcp, setDefense, updateNowTime } = baseSlice.actions;

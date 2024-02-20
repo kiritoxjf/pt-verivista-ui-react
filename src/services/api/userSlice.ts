@@ -2,31 +2,22 @@ import { login } from '@/features/user/userSlice';
 import { get, post } from '../http';
 import { Action, Dispatch } from '@reduxjs/toolkit';
 import { iUser } from '@/interfaces/Sign';
-
-type iSendCodeReq = {
-  email: string;
-};
+import { ISendCodeForm, ISignOnForm } from '@/pages/Sign/SignOn/SignOn.interface';
 
 type CodeRes = {
   success: boolean;
 };
 
 // 发送邮箱验证码
-export const sendSignCode = (json: iSendCodeReq): Promise<CodeRes> => {
+export const sendSignCode = (json: ISendCodeForm): Promise<CodeRes> => {
   return post<CodeRes>('/com/signCode', json);
-};
-
-type SignOnReq = {
-  email: string;
-  password: string;
-  code: string;
 };
 
 type SignRes = {
   message: string;
 };
 
-export const signOn = (json: SignOnReq): Promise<SignRes> => {
+export const signOn = (json: ISignOnForm): Promise<SignRes> => {
   return post('/com/signOn', json);
 };
 
@@ -44,11 +35,10 @@ interface iAction extends Action {
   payload: iUser;
 }
 
-export const authInfo = (dispatch: Dispatch<iAction>): Promise<iUser> => {
-  return get<iUser>('/auth/authInfo').then((res) => {
-    dispatch(login(res));
-    return new Promise((resolve) => {
-      resolve(res);
-    });
+export const authInfo = async (dispatch: Dispatch<iAction>): Promise<iUser> => {
+  const res = await get<iUser>('/auth/authInfo');
+  dispatch(login(res));
+  return await new Promise((resolve) => {
+    resolve(res);
   });
 };
