@@ -95,6 +95,9 @@
         }
       }
       .btn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
         position: relative;
         overflow: hidden;
         width: 6rem;
@@ -110,6 +113,9 @@
         .text {
           position: relative;
           z-index: 2;
+        }
+        svg {
+          animation: rotateZ360 1s linear infinite;
         }
       }
       .active {
@@ -161,12 +167,12 @@
   }
 }
 
-@keyframes rotate180 {
+@keyframes rotateZ360 {
   from {
-    transform: rotateY(0deg);
+    transform: rotateZ(0deg);
   }
   to {
-    transform: rotateY(180deg);
+    transform: rotateZ(360deg);
   }
 }
 

@@ -8,21 +8,23 @@ import WaveCard from '../WaveCard/WaveCard';
 import { TextField } from '@mui/material';
 import { enqueueSnackbar } from 'notistack';
 import { iError } from '@/interfaces/Common';
+import RefreshOutlined from '@mui/icons-material/RefreshOutlined';
 
 function Blacklist() {
   const dispatch = useAppDispatch();
   const emailReg = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const emailString: string[] = ['邮', '箱'];
-  const [state, setState] = useState<'search' | 'report'>('search');
   const logged = useAppSelector((state) => state.user.logged);
   const defense = useAppSelector((state) => state.base.defense);
   const nowTime = useAppSelector((state) => state.base.nowTime);
+  const [state, setState] = useState<'search' | 'report'>('search');
   const [searchEmail, setSearchEmail] = useState<string>('');
   const [searchRes, setSearchRes] = useState<ISearchRes>();
   const [reportForm, setReportForm] = useState<IReportForm>({
     email: '',
     description: '',
   });
+  const [submitLoading, setSubmitLoading] = useState<boolean>(false);
 
   // handleSearchChange 查人输入框变化
   function handleSearchChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -51,11 +53,13 @@ function Blacklist() {
   }
   // handleSearchSubmit 查人提交
   function handleSearchSubmit() {
+    if (submitLoading) return
     if (!emailReg.test(searchEmail)) {
       enqueueSnackbar('邮箱格式有误', { variant: 'warning' });
       return;
     }
     setSearchRes(undefined);
+    setSubmitLoading(true);
     getBlackApi(searchEmail)
       .then((res) => {
         setSearchRes({
@@ -71,14 +75,17 @@ function Blacklist() {
             search: new Date().getTime(),
           }),
         );
+        setSubmitLoading(false);
       })
       .catch((err: iError) => {
+        setSubmitLoading(false);
         enqueueSnackbar(err.message, { variant: 'error' });
       });
   }
 
   // handleReportSubmit 挂人提交
   function handleReportSubmit() {
+    if (submitLoading) return
     if (!emailReg.test(reportForm.email)) {
       enqueueSnackbar('邮箱格式有误', { variant: 'warning' });
       return;
@@ -87,6 +94,7 @@ function Blacklist() {
       email: reportForm.email,
       description: reportForm.description,
     };
+    setSubmitLoading(true);
     reportApi(json)
       .then(() => {
         enqueueSnackbar('挂人完成啦！', { variant: 'success' });
@@ -98,9 +106,11 @@ function Blacklist() {
         );
         formClear();
         setState('search');
+        setSubmitLoading(false);
       })
       .catch((err: iError) => {
         enqueueSnackbar(err.message, { variant: 'error' });
+        setSubmitLoading(false);
       });
   }
 
@@ -155,8 +165,8 @@ function Blacklist() {
   }
 
   useEffect(() => {
-    formClear()
-  }, [state])
+    formClear();
+  }, [state]);
 
   return (
     <WaveCard className={styles.blacklist}>
@@ -194,6 +204,7 @@ function Blacklist() {
               <span className={styles.text}>
                 {nowTime - defense.search < 60000 ? 60 + Math.floor((defense.search - nowTime) / 1000) + 's' : '提交'}
               </span>
+              {submitLoading ? <RefreshOutlined /> : null}
             </div>
             <div className={styles.info}>{showRes()}</div>
           </div>
@@ -232,6 +243,7 @@ function Blacklist() {
                   ? 3600 + Math.floor((defense.report - nowTime) / 1000) + 's'
                   : '提交'}
               </span>
+              {submitLoading ? <RefreshOutlined /> : null}
             </div>
           </div>
         </div>
