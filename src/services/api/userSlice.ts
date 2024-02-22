@@ -30,6 +30,10 @@ export const signIn = (json: SignInReq): Promise<SignRes> => {
   return post('/com/signIn', json);
 };
 
+export const signOut = () => {
+  return get('/auth/signOut');
+};
+
 interface iAction extends Action {
   type: string;
   payload: iUser;

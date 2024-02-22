@@ -2,7 +2,8 @@ import { SvgIcon, SvgIconProps } from '@mui/material';
 import styles from './Header.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '@/features/store';
-import { login, logout } from '@/features/user/userSlice';
+import { logout } from '@/features/user/userSlice';
+import { signOut } from '@/services/api/userSlice';
 
 function HomeIcon(props: SvgIconProps) {
   return (
@@ -21,7 +22,9 @@ const Header = () => {
   const handleSignClick = () => {
     if (logged) {
       navigate('/');
-      dispatch(logout());
+      signOut().then(() => {
+        dispatch(logout());
+      });
     } else {
       navigate('/sign-in');
     }
