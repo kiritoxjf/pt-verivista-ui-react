@@ -1,5 +1,22 @@
 .blacklist {
-  .search {
+  font-family: 'Circle Font', sans-serif;
+  .switch {
+    display: inline-block;
+    position: absolute;
+    height: 2rem;
+    width: 2rem;
+    right: 0.5rem;
+    top: 0.5rem;
+    text-align: center;
+    line-height: 1.9rem;
+    border-radius: 50%;
+    border: 0.1rem solid #fff;
+    cursor: pointer;
+    z-index: 2;
+    animation: shadowFlow 2s linear infinite;
+  }
+  .search,
+  .report {
     min-width: 16rem;
     min-height: auto;
     margin: 1rem;
@@ -10,7 +27,6 @@
       width: 100%;
       height: 100%;
       font-size: 1.25rem;
-      font-family: 'Circle Font', sans-serif;
       color: rgb(255, 255, 255);
       font-weight: 200;
       text-align: center;
@@ -54,6 +70,28 @@
         input:valid + label span {
           color: #40a9ff;
           transform: translateY(-1.5625rem);
+        }
+      }
+      .description {
+        margin: 0 auto 1rem auto;
+        label,
+        textarea {
+          font-family: 'Circle Font', sans-serif;
+        }
+        // 设置滚动条
+        ::-webkit-scrollbar {
+          width: 0.2rem;
+        }
+        // 设置滑块
+        ::-webkit-scrollbar-thumb {
+          background-color: #888;
+          border-radius: 0.1rem;
+        }
+
+        /* 竖直滚动条 */
+        ::-webkit-scrollbar-track {
+          border-radius: 0.1rem;
+          background-color: #f1f1f1;
         }
       }
       .btn {
@@ -149,5 +187,17 @@
   }
   100% {
     background: transparent;
+  }
+}
+
+@keyframes shadowFlow {
+  0% {
+    box-shadow: 0 0 0rem #fff;
+  }
+  50% {
+    box-shadow: 0 0 0.5rem #fff;
+  }
+  100% {
+    box-shadow: 0 0 0rem #fff;
   }
 }

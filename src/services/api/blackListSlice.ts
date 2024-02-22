@@ -1,4 +1,5 @@
-import { get } from '../http';
+import { IReportForm } from '@/components/Blacklist/Blacklist.interface';
+import { get, post } from '../http';
 
 type BlackList = {
   black?: boolean;
@@ -8,10 +9,16 @@ type BlackList = {
   date?: string;
   lastTime?: string;
 };
+
 // 查人
 export const getBlackApi = (email: string): Promise<BlackList> => {
   const params = {
-    email: email,
+    email: email
   };
-  return get<BlackList>('/com/black', params);
+  return get<BlackList>('/com/search', params);
+};
+
+// 挂人
+export const reportApi = (form: IReportForm): Promise<unknown> => {
+  return post('/auth/report', form);
 };
