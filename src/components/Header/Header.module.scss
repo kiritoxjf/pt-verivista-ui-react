@@ -22,18 +22,18 @@
       }
     }
     .avatar {
-      width: 2rem;
+      width: 4rem;
       height: 2rem;
+      border-radius: 0.5rem;
       position: relative;
       margin-left: auto;
       margin-right: 0.5rem;
       background: rgba(0, 0, 0, 0.4);
-      border-radius: 50%;
       overflow: hidden;
       cursor: pointer;
     }
     .avatar::before {
-      content: '登';
+      content: '登录';
       position: absolute;
       top: 50%;
       left: 50%;
@@ -44,6 +44,9 @@
       background-image: url('https://verivista.oss-cn-beijing.aliyuncs.com/avatar/default_avatar.png');
       background-size: cover;
       background-position: center;
+      width: 2rem;
+      height: 2rem;
+      border-radius: 50%;
     }
     .avatar.logged::before {
       content: '';
