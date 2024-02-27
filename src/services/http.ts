@@ -3,7 +3,7 @@ import axios, { AxiosError, AxiosRequestConfig } from 'axios';
 // Axios实例
 const instance = axios.create({
   baseURL: '/api',
-  timeout: 20000,
+  timeout: 60000,
   withCredentials: true,
 });
 
