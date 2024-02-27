@@ -3,9 +3,9 @@ import { Outlet } from 'react-router-dom';
 import Header from '@/components/Header/Header';
 import Footer from '@/components/Footer/Footer';
 import { useEffect } from 'react';
-import { getDefense, record } from '@/services/api/baseSlice';
+import { getDefense, getStatistic, record } from '@/services/api/baseSlice';
 import { useAppDispatch } from '@/features/store';
-import { setDefense, updateNowTime } from '@/features/base/baseSlice';
+import { setDefense, updateNowTime, updateStatistic } from '@/features/base/baseSlice';
 import { authInfo } from '@/services/api/userSlice';
 
 const Layout = () => {
@@ -28,6 +28,14 @@ const Layout = () => {
     setInterval(() => {
       dispatch(updateNowTime());
     }, 1000);
+
+    // 获取统计数据
+    setInterval(() => {
+      getStatistic()
+        .then((res) => {
+          dispatch(updateStatistic(res));
+        })
+    }, 5000);
   }, []);
 
   return (

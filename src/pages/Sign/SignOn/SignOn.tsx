@@ -53,7 +53,7 @@ const SignOn = () => {
         dispatch(
           setDefense({
             ...defense,
-            sign: new Date().getTime(),
+            email: new Date().getTime(),
           }),
         );
       })
@@ -241,7 +241,7 @@ const SignOn = () => {
                       title="发送验证码"
                     >
                       {nowTime - defense.email < 60000 ? (
-                        Math.floor(nowTime - defense.email / 1000) + 's'
+                        60 - Math.floor((nowTime - defense.email) / 1000) + 's'
                       ) : (
                         <Autorenew className={`${sendLoading ? styles.loading : ''}`} />
                       )}

@@ -1,0 +1,32 @@
+.real_view {
+  height: 6rem;
+  width: 16rem;
+  line-height: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 2rem;
+  text-align: center;
+  position: absolute;
+  left: 1rem;
+  top: 1rem;
+  color: #fff;
+  animation: shadowFlow 2s linear infinite;
+  .label {
+    color: #88bfb8;
+  }
+  .value {
+    text-shadow: 0 0 0.625rem #ea5514;
+    color: #d23918;
+  }
+}
+@keyframes shadowFlow {
+  0% {
+    box-shadow: 0 0 0rem #fff;
+  }
+  50% {
+    box-shadow: 0 0 0.5rem #fff;
+  }
+  100% {
+    box-shadow: 0 0 0rem #fff;
+  }
+}
