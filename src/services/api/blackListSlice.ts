@@ -1,21 +1,12 @@
-import { IReportForm } from '@/components/Blacklist/Blacklist.interface';
+import { IReportForm, ISearchRes } from '@/components/Blacklist/Blacklist.interface';
 import { get, post } from '../http';
 
-type BlackList = {
-  black?: boolean;
-  email?: string;
-  reporter?: string;
-  description?: string;
-  date?: string;
-  lastTime?: string;
-};
-
 // 查人
-export const getBlackApi = (email: string): Promise<BlackList> => {
+export const getBlackApi = (email: string): Promise<ISearchRes> => {
   const params = {
     email: email
   };
-  return get<BlackList>('/com/search', params);
+  return get<ISearchRes>('/com/search', params);
 };
 
 // 挂人

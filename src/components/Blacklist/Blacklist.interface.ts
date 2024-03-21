@@ -1,7 +1,7 @@
 export interface ISearchRes {
   black?: boolean;
+  total?: number;
   email?: string;
-  reporter?: string;
   description?: string;
   date?: string;
 }
