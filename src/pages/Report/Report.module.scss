@@ -1,0 +1,65 @@
+.report {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  flex-direction: column;
+  max-width: 60rem;
+  margin: 0 auto;
+  overflow-y: auto;
+  .noCard {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    .email {
+      color: red;
+      text-shadow: 0 0 0.625rem #000;
+    }
+  }
+  .card {
+    position: relative;
+    min-height: 15rem;
+    margin: 1rem;
+    padding: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    background-color: rgba(0, 0, 0, 0.6);
+    border-radius: 2rem;
+    color: #fff;
+    animation: shadowFlow 2s linear infinite;
+    .explain {
+      position: absolute;
+      top: 2rem;
+      right: 2rem;
+      color: #a6559d;
+      cursor: pointer;
+    }
+  }
+}
+
+// 设置滚动条
+::-webkit-scrollbar {
+  width: 0.2rem;
+}
+// 设置滑块
+::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.6);
+  border-radius: 0.1rem;
+}
+
+/* 竖直滚动条 */
+::-webkit-scrollbar-track {
+  border-radius: 0.1rem;
+  background-color: transparent;
+}
+
+@keyframes shadowFlow {
+  0% {
+    box-shadow: 0 0 0rem #fff;
+  }
+  50% {
+    box-shadow: 0 0 0.5rem #fff;
+  }
+  100% {
+    box-shadow: 0 0 0rem #fff;
+  }
+}
